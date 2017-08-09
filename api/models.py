@@ -15,7 +15,7 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     title = models.CharField(max_length=200, unique=True)
     quantity = models.CharField(max_length=200)
-    recipe = models.ForeignKey(Recipe)
+    recipe = models.ForeignKey(Recipe,on_delete=models.CASCADE, related_name="ingredients")
 
 class ScheduleEntry(models.Model):
     entryDate = models.DateField()
