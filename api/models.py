@@ -10,7 +10,7 @@ class Book(models.Model):
 class Recipe(models.Model):
     title = models.CharField(max_length=200, unique=True)
     description = models.CharField(max_length=200)
-
+    # ingredients = serializers.StringRelatedField(many=True)
 
 class Ingredient(models.Model):
     title = models.CharField(max_length=200, unique=True)

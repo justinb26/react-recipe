@@ -32,6 +32,7 @@ module.exports = {
         loaders: [
             //a regexp that tells webpack use the following loaders on all 
             //.js and .jsx files
+            { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['react-hot', 'babel'], },
             {
                 test: /\.jsx?$/, 
                 //we definitely don't want babel to transpile all the files in 
