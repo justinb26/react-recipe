@@ -85,9 +85,34 @@ var RecipesList = React.createClass({
 
 
 var Recipe = React.createClass({
+
+    // Initialize empty data structure
+    getInitialState: function() {
+        return {
+            isEditing: false,
+            data: []
+        };
+    },
+
     componentDidMount: function() {
     },
 
+    handleClose: function(e) {
+
+        e.preventDefault();
+
+        this.setState({
+            isEditing: false,
+        });
+    },
+
+    handleClick: function(e) {
+        this.setState({
+            isEditing: true,
+        });
+
+        //$('.card').append('<div class="chip">foo</div>');
+    },
     render: function() {
         var title = this.props.title;
         
@@ -96,6 +121,13 @@ var Recipe = React.createClass({
         });
 
         console.log(ingredients);
+
+        var editingChip = this.state.isEditing ? (
+            <div className="chip">
+                foo
+                <i onClick={this.handleClose}> (X)</i>
+            </div>
+        ) : "";
 
         return (
             <div className="card blue-grey darken-1">
@@ -106,6 +138,12 @@ var Recipe = React.createClass({
                         <ul>
                             {ingredients}
                         </ul>
+                    </div>
+
+                    {editingChip}
+
+                    <div>
+                        <a className="btn-floating btn-small waves-effect waves-light" onClick={this.handleClick}><i className="material-icons">add</i></a>
                     </div>
                 </div>
             </div>
