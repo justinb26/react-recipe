@@ -14,6 +14,73 @@ var RecipeBox = React.createClass({
     }
 });
 
+
+var RecipeTag = React.createClass({
+    
+    getInitialState: function() {
+        return { 
+            value: "foo", 
+            size: 3,
+            isEditing: false
+        };
+    },
+
+    handleClose: function(e) {
+        // e.preventDefault();
+        // e.stopPropagation();
+        
+        // this.setState({
+        //     isEditing: false,
+        // });
+    },
+
+    handleKeypress: function(e) {
+        // Enter pressed, end editing
+        if (e.which == 13 || e.keyCode == 13) {
+            this.setState({isEditing: false});
+        }
+    },
+
+    handleChange: function(e) {
+        this.setState(
+            {
+                value: e.target.value, 
+                size: e.target.value ? e.target.value.length : 3
+            }
+        );
+    },
+
+    handleEdit: function(e) {
+        this.setState(
+            {
+                isEditing: true,
+            });
+    },
+
+
+    render: function() {
+
+        var isEditing = this.state.isEditing;
+        var currentValue = this.state.value.toString();
+
+        return (
+            <div className="chip">
+                
+                {isEditing ? (
+                    <input type="textbox" size={this.state.size} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeypress}/>
+                ) : (
+                    <span onClick={this.handleEdit}>{currentValue}</span>
+                )}
+                
+                <i className="close material-icons" onClick={this.handleClose}>close</i>
+            </div>
+        );
+    }
+});
+
+
+
+
 var RecipeForm = React.createClass({
     clickme: function() {
         var randomString = random(100).toString();
@@ -89,26 +156,24 @@ var Recipe = React.createClass({
     // Initialize empty data structure
     getInitialState: function() {
         return {
-            isEditing: false,
-            data: []
+            // isEditing: false,
+            tags: ["foo", "bar"] // each tag is a string
         };
     },
 
     componentDidMount: function() {
     },
 
-    handleClose: function(e) {
 
-        e.preventDefault();
-
-        this.setState({
-            isEditing: false,
-        });
-    },
 
     handleClick: function(e) {
+        var myTags = this.state.tags;
+        myTags.push("baz")
+
         this.setState({
-            isEditing: true,
+            tags: myTags
+            // isEditing: true,
+            // tags: myTags
         });
 
         //$('.card').append('<div class="chip">foo</div>');
@@ -120,14 +185,17 @@ var Recipe = React.createClass({
             return <Ingredient key={index} stuff={ingredient}/>;
         });
 
-        console.log(ingredients);
 
-        var editingChip = this.state.isEditing ? (
-            <div className="chip">
-                foo
-                <i onClick={this.handleClose}> (X)</i>
-            </div>
-        ) : "";
+
+        var editingChips = this.state.tags.map(function(tag, index){
+            return <RecipeTag key={index} name={tag}/>
+        });
+
+        // ? (
+        //     <RecipeTag/>
+        // ) : "";
+
+
 
         return (
             <div className="card blue-grey darken-1">
@@ -140,11 +208,14 @@ var Recipe = React.createClass({
                         </ul>
                     </div>
 
-                    {editingChip}
-
+                    
                     <div>
                         <a className="btn-floating btn-small waves-effect waves-light" onClick={this.handleClick}><i className="material-icons">add</i></a>
                     </div>
+
+                    {editingChips}
+
+
                 </div>
             </div>
         );
