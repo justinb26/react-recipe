@@ -15,72 +15,6 @@ var RecipeBox = React.createClass({
 });
 
 
-var RecipeTag = React.createClass({
-    
-    getInitialState: function() {
-        return { 
-            value: "foo", 
-            size: 3,
-            isEditing: false
-        };
-    },
-
-    handleClose: function(e) {
-        // e.preventDefault();
-        // e.stopPropagation();
-        
-        // this.setState({
-        //     isEditing: false,
-        // });
-    },
-
-    handleKeypress: function(e) {
-        // Enter pressed, end editing
-        if (e.which == 13 || e.keyCode == 13) {
-            this.setState({isEditing: false});
-        }
-    },
-
-    handleChange: function(e) {
-        this.setState(
-            {
-                value: e.target.value, 
-                size: e.target.value ? e.target.value.length : 3
-            }
-        );
-    },
-
-    handleEdit: function(e) {
-        this.setState(
-            {
-                isEditing: true,
-            });
-    },
-
-
-    render: function() {
-
-        var isEditing = this.state.isEditing;
-        var currentValue = this.state.value.toString();
-
-        return (
-            <div className="chip">
-                
-                {isEditing ? (
-                    <input type="textbox" size={this.state.size} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeypress}/>
-                ) : (
-                    <span onClick={this.handleEdit}>{currentValue}</span>
-                )}
-                
-                <i className="close material-icons" onClick={this.handleClose}>close</i>
-            </div>
-        );
-    }
-});
-
-
-
-
 var RecipeForm = React.createClass({
     clickme: function() {
         var randomString = random(100).toString();
@@ -102,6 +36,7 @@ var RecipeForm = React.createClass({
         );
     }
 });
+
 
 // Loops through a "recipes" object, rendering Recipe templates for each one
 var RecipesList = React.createClass({
@@ -138,7 +73,7 @@ var RecipesList = React.createClass({
     render: function() {
         var recipes = this.state.data.map(function(recipe, index) {
             return (
-                <Recipe key={index} id={index} title={recipe.title} ingredients={recipe.ingredients}/>
+                <Recipe key={index} id={index} title={recipe.title} ingredients={recipe.ingredients} tags={recipe.tags}/>
             );
         }.bind(this));
 
@@ -157,7 +92,7 @@ var Recipe = React.createClass({
     getInitialState: function() {
         return {
             // isEditing: false,
-            tags: ["foo", "bar"] // each tag is a string
+            tags: this.props.tags // each tag is a string
         };
     },
 
@@ -223,13 +158,75 @@ var Recipe = React.createClass({
 });
 
 
-
 var Ingredient = React.createClass({
     render: function() {
         return <li>{this.props.stuff}</li>
     }
 });
 
+
+var RecipeTag = React.createClass({
+    getInitialState: function() {
+        return {
+            value: this.props.name,
+            size: 3,
+            isEditing: false
+        };
+    },
+
+    handleClose: function(e) {
+        // e.preventDefault();
+        // e.stopPropagation();
+
+        // this.setState({
+        //     isEditing: false,
+        // });
+    },
+
+    handleKeypress: function(e) {
+        // Enter pressed, end editing
+        if (e.which == 13 || e.keyCode == 13) {
+
+            this.setState({isEditing: false});
+
+        }
+    },
+
+    handleChange: function(e) {
+        this.setState(
+            {
+                value: e.target.value,
+                size: e.target.value ? e.target.value.length : 3
+            }
+        );
+    },
+
+    handleEdit: function(e) {
+        this.setState(
+            {
+                isEditing: true,
+            });
+    },
+
+    render: function() {
+
+        var isEditing = this.state.isEditing;
+        var currentValue = this.state.value.toString();
+
+        return (
+            <div className="chip">
+
+                {isEditing ? (
+                    <input type="textbox" size={this.state.size} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeypress}/>
+                ) : (
+                    <span onClick={this.handleEdit}>{currentValue}</span>
+                )}
+
+                <i className="close material-icons" onClick={this.handleClose}>close</i>
+            </div>
+        );
+    }
+});
 
 
 ReactDOM.render(<RecipeBox/>, document.getElementById('container'))
