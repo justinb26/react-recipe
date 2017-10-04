@@ -1,5 +1,7 @@
+from django.http import HttpResponse
 from rest_framework import generics
-  
+from rest_framework.response import Response
+
 from .models import Book, Recipe, Ingredient, ScheduleEntry, Tag
 from .serializers import BookSerializer, RecipeSerializer, IngredientSerializer, ScheduleEntrySerializer, TagSerializer
 
@@ -41,3 +43,13 @@ class TagList(generics.ListCreateAPIView):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+
+class TagDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance)
+    #     return Response(data=serializer.data)

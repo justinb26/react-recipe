@@ -14,7 +14,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ('title', 'quantity', 'recipe')
+        fields = ('id', 'title', 'quantity', 'recipe')
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -30,20 +30,20 @@ class RecipeSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Recipe
-        fields = ('title', 'description', 'ingredients', 'tags')
+        fields = ('id', 'title', 'description', 'ingredients', 'tags')
 
 
 class ScheduleEntrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ScheduleEntry
-        fields = ('entryDate', 'breakfastEntry', 'lunchEntry', 'dinnerEntry')
+        fields = ('id','entryDate', 'breakfastEntry', 'lunchEntry', 'dinnerEntry')
 
 class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ('phrase', 'recipe')
+        fields = ('id', 'phrase', 'recipe')
 
     def create(self, validated_data):
         tag, created = Tag.objects.update_or_create(
