@@ -167,14 +167,28 @@ var Ingredient = React.createClass({
 
 var RecipeTag = React.createClass({
     getInitialState: function() {
+        var name = this.props.name.split(",");
+
         return {
-            value: this.props.name,
+            id: name[0],
+            value: name[1],
             size: 3,
             isEditing: false
         };
     },
 
     handleClose: function(e) {
+        $.ajax({
+            url: 'http://localhost/api/tags/' + this.state.id,
+            datatype: 'json',
+            type: 'DELETE',
+            cache: false,
+            success: function(data) {
+                // close me!
+
+            }.bind(this)
+        })
+
         // e.preventDefault();
         // e.stopPropagation();
 
@@ -201,7 +215,7 @@ var RecipeTag = React.createClass({
         );
     },
 
-    handleEdit: function(e) {
+    handleClick: function(e) {
         this.setState(
             {
                 isEditing: true,
@@ -219,9 +233,9 @@ var RecipeTag = React.createClass({
                 {isEditing ? (
                     <input type="textbox" size={this.state.size} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeypress}/>
                 ) : (
-                    <span onClick={this.handleEdit}>{currentValue}</span>
+                    <span onClick={this.handleClick}>{currentValue}</span>
                 )}
-
+                {/*<span onClick={this.handleClose}>&nbsp;&nbsp;( X )</span>*/}
                 <i className="close material-icons" onClick={this.handleClose}>close</i>
             </div>
         );

@@ -26,3 +26,6 @@ class ScheduleEntry(models.Model):
 class Tag(models.Model):
     phrase = models.CharField(max_length=200, unique=True)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="tags")
+
+    def __unicode__(self):
+        return str(self.id) + "," + self.phrase

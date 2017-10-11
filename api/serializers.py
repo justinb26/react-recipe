@@ -23,11 +23,13 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='title'
      )
-    tags = serializers.SlugRelatedField(
-        many=True,
-        read_only=True,
-        slug_field='phrase'
-    )
+    # tags = serializers.SlugRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     slug_field='phrase'
+    # )
+    tags = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Recipe
         fields = ('id', 'title', 'description', 'ingredients', 'tags')
@@ -37,7 +39,8 @@ class ScheduleEntrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ScheduleEntry
-        fields = ('id','entryDate', 'breakfastEntry', 'lunchEntry', 'dinnerEntry')
+        fields = ('id', 'entryDate', 'breakfastEntry', 'lunchEntry', 'dinnerEntry')
+
 
 class TagSerializer(serializers.ModelSerializer):
 
